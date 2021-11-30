@@ -11,24 +11,26 @@ import comp from '../logos/comp.png';
 import uni from '../logos/uni.png';
 import gnt from '../logos/gnt.png';
 
+//Libreria de axios
 const axios = require("axios");
 
 class App extends Component {
 
-  // TODO: LOAD DATA FROM API HERE...
-
+  //Aqui llamamos a la funcion "getData"
   async componentWillMount() {
     this.getData()
   }
-
+  
+//Nuestro metodo get
   getData = () => {
+    //Nuestro metodo get, para acceder a la info de las criptomonedas
     axios({
       "method":"GET",
       "url":"https://coinpaprika1.p.rapidapi.com/tickers",
       "headers":{
         "content-type":"application/octet-stream",
         "x-rapidapi-host":"coinpaprika1.p.rapidapi.com",
-        "x-rapidapi-key":"4bb256e94fmsh858af5ded027a70p162c89jsn29a74ff6bf75",
+        "x-rapidapi-key":"4bb256e94fmsh858af5ded027a70p162c89jsn29a74ff6bf75", //KEY NECESARIA PARA ACCEDER A LA INFO
         "useQueryString":true
       }
     }). then((response) => {
@@ -46,23 +48,19 @@ class App extends Component {
         { name: 'Uniswap', img: uni },
         { name: 'Golem', img: gnt }
       ]
-      /* search for chosen cryptocurrencies, then add them to the state */
-      //get ccurency from ccArray 
+      /* Buscamos la info de cada moneda escogida */
       for(let j=0; j<ccArray.length; j++){
-        //get ccurrency from API
         for (let i=0; i<coins.length; i++){
-          //if current ccurrency API == current ccurrency from ccArray
           if(coins[i].name === ccArray[j].name){
-            //add img to the ccurrency API data
             coins[i]['img'] = ccArray[j].img
-            //set state with updated data
+            
             this.setState({
               ccData: [...this.state.ccData, coins[i]]
             })
           }
         }
       }
-      //sort ccurrencies by rank
+      //Ordenar por rango las monedas
       this.setState({
         ccData: this.state.ccData.sort((a,b) => a.rank-b.rank)
       })
@@ -71,14 +69,14 @@ class App extends Component {
       console.log(error)
     })
 
-    //getting ccurrency market data
+    //Conseguir total market cap
     axios({
       "method":"GET",
       "url":"https://coinpaprika1.p.rapidapi.com/global",
       "headers":{
       "content-type":"application/octet-stream",
       "x-rapidapi-host":"coinpaprika1.p.rapidapi.com",
-      "x-rapidapi-key":"YOUR_RAPID_API_KEY",
+      "x-rapidapi-key":"4bb256e94fmsh858af5ded027a70p162c89jsn29a74ff6bf75",
       "useQueryString":true
       }
     })
